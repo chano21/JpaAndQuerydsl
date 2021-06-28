@@ -1,6 +1,1 @@
-# querydsl-practice
-# querydsl-practice
-# querydsl-practice
-# JpaAndQuerydsl
-# JpaAndQuerydsl
-# JpaAndQuerydsl
+# This project for Practice in jpa + querydsl 
