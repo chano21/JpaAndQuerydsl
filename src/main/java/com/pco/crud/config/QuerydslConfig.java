@@ -16,13 +16,13 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
  *
  * 2021. 6. 28.
  */
-@Configuration
-public class QuerydslConfig {
-	  @PersistenceContext
-	    private EntityManager entityManager;
-
-	    @Bean
-	    public JPAQueryFactory jpaQueryFactory() {
-	        return new JPAQueryFactory(entityManager);
-	    }
-}
+//@Configuration
+//public class QuerydslConfig {
+//	  @PersistenceContext
+//	    private EntityManager entityManager;
+//
+//	    @Bean
+//	    public JPAQueryFactory jpaQueryFactory() {
+//	        return new JPAQueryFactory(entityManager);
+//	    }
+//}

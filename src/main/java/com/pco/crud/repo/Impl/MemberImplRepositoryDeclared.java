@@ -1,16 +1,16 @@
 /**
  * 
  */
-package com.pco.crud.repoImpl;
+package com.pco.crud.repo.Impl;
 
-import org.springframework.stereotype.Repository;
+import com.pco.crud.dto.MemberDto;
 
 /**
  * @author ParkChano
  *
  * 2021. 6. 28.
  */
-@Repository
-public class MemberRepoImpl {
 
+public interface MemberImplRepositoryDeclared{
+	MemberDto findMember(String memberName);
 }
