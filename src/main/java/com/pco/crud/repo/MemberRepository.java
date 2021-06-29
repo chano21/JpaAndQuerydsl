@@ -7,17 +7,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.pco.crud.domain.Member;
 import com.pco.crud.dto.MemberDto;
-import com.pco.crud.repo.Impl.MemberImplRepositoryDeclared;
+import com.pco.crud.repo.Impl.MemberImplRepository;
 
 /**
  * @author ParkChano
  *
  * 2021. 6. 28.
  */
-public interface MemberRepository extends JpaRepository <Member, Long> ,MemberImplRepositoryDeclared{
+public interface MemberRepository extends JpaRepository <Member, Long>{
 //public interface MemberRepository extends JpaRepository <Member, Long>{
-
-//	public MemberDto findMember(String memberName); 
+	
+	
 	/**
 	 * @param memberName
 	 * @return

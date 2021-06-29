@@ -18,6 +18,7 @@ import lombok.ToString;
  */
 @Getter
 @NoArgsConstructor
+@ToString
 public abstract class  BaseDto {
 
 	private LocalDateTime createdDate;

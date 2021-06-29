@@ -3,6 +3,7 @@
  */
 package com.pco.crud.repo.Impl;
 
+import com.pco.crud.dto.BaseDto;
 import com.pco.crud.dto.MemberDto;
 
 /**
@@ -11,6 +12,6 @@ import com.pco.crud.dto.MemberDto;
  * 2021. 6. 28.
  */
 
-public interface MemberImplRepositoryDeclared{
-	MemberDto findMember(String memberName);
+public interface MemberImplRepository{
+	MemberDto findqueryDslMember(String memberName);
 }
