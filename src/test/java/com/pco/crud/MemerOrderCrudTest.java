@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.pco.crud.config.QuerydslConfig;
+//import com.pco.crud.config.QuerydslConfig;
 import com.pco.crud.domain.Member;
 import com.pco.crud.domain.Order;
 import com.pco.crud.repo.MemberRepository;
@@ -21,7 +21,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 @DataJpaTest
 //@SpringBootTest
 //@DirtiesContext
-class CrudTest {
+class MemerOrderCrudTest {
 
 	@Autowired
 	EntityManager em;

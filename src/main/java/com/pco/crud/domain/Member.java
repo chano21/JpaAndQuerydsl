@@ -13,8 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author ParkChano
@@ -25,10 +27,12 @@ import lombok.Getter;
 @Table(name = "member")
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends BaseEntity{
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long memberId;
 	
 	private String memberName;
@@ -37,11 +41,18 @@ public class Member extends BaseEntity{
 	@OneToMany(mappedBy = "member")
 	private List<Order> orders = new ArrayList<>();
 
+	
 	public void changeOrder(Order order){
 		orders.add(order);
 		order.member=this;		
 	}
 
+	public void bulkChangeOrder(List<Order> order){
+		orders=order;
+		order.forEach(o -> o.member=this);
+	}
+
+	
 	/**
 	 * @return
 	 * 2021. 6. 28.

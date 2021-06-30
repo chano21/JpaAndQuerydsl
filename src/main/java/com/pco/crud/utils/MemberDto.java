@@ -5,6 +5,7 @@ package com.pco.crud.utils;
 
 import java.time.LocalDateTime;
 
+import com.pco.crud.domain.Order;
 import com.pco.crud.dto.BaseDto;
 import com.querydsl.core.annotations.QueryProjection;
 
@@ -33,15 +34,21 @@ public class MemberDto extends BaseDto {
 	}
 	
 	
+	
 	public static void main(String args[]) {
 		LocalDateTime time1 = LocalDateTime.now();
 		LocalDateTime time2 = LocalDateTime.now();
 		
+		
+		
 		MemberDto dto = new MemberDto((long)1, "hello",time1,time2);
+
 		System.out.println(dto.getName());
 		System.out.println(dto.getId());
 		System.out.println(dto.getCreatedDate());
 		System.out.println(dto.getModifiedDate());
+	
+		
 		
 	}
 	/**

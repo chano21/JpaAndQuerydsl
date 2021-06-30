@@ -4,6 +4,7 @@
 package com.pco.crud.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -15,7 +16,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.pco.crud.common.Status;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author ParkChano
@@ -24,6 +27,8 @@ import lombok.Getter;
  */
 @MappedSuperclass
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 	@CreatedDate
