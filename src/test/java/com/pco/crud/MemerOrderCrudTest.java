@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 //import com.pco.crud.config.QuerydslConfig;
 import com.pco.crud.domain.Member;
-import com.pco.crud.domain.Order;
+import com.pco.crud.domain.Orders;
 import com.pco.crud.repo.MemberRepository;
 import com.pco.crud.repo.service.QuerydslMemberRepositoryImpl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -48,14 +48,14 @@ class MemerOrderCrudTest {
 
 		Member member = Member.builder().memberName("하이").build();// .build();
 		em.persist(member);
-		Order order = null;
+		Orders order = null;
 		for (int i = 0; i < 1; i++) {
-			order = Order.builder().orderName("하이" + i).build();
+			order = Orders.builder().orderName("하이" + i).build();
 			member.changeOrder(order);
 			em.persist(order);
 		}
 		em.flush();
-		for (Order o : member.getOrders()) {
+		for (Orders o : member.getOrders()) {
 			System.out.println(o.getOrderName());
 		}
 

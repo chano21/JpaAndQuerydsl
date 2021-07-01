@@ -3,7 +3,9 @@
  */
 package com.pco.crud.repo.Impl;
 
-import com.pco.crud.dto.OrderDto;
+import java.util.List;
+
+import com.pco.crud.dto.OrderProductDto;
 
 /**
  * @author ParkChano
@@ -12,5 +14,5 @@ import com.pco.crud.dto.OrderDto;
  */
 
 public interface OrderImplRepository{
-	OrderDto findqueryDslMember(String memberName);
+	List<OrderProductDto> findOrderAndProduct(Long orderId);
 }

@@ -37,14 +37,14 @@ public class OrderProduct extends BaseEntity {
 	
 	@Builder.Default
 	@OneToMany(mappedBy = "orderProduct")
-	private List<Order> orders = new ArrayList<>();
+	private List<Orders> orders = new ArrayList<>();
 
 	@Builder.Default
 	@OneToMany(mappedBy = "orderProduct")
 	private List<Product> products = new ArrayList<>();
 
 	
-	public void changeOrder(Order order){
+	public void changeOrder(Orders order){
 		orders.add(order);
 		order.orderProduct=this;		
 	}
@@ -55,7 +55,7 @@ public class OrderProduct extends BaseEntity {
 	}
 	
 
-	public void bulkChangeOrder(List<Order> order){
+	public void bulkChangeOrder(List<Orders> order){
 		orders=order;
 		order.forEach(o -> o.orderProduct=this);
 	}

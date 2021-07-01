@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Order extends BaseEntity{
+public class Orders extends BaseEntity{
 
 	@Id
 	//@GeneratedValue(strategy = GenerationType.AUTO)

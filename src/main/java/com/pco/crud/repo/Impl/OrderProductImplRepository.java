@@ -14,5 +14,5 @@ import com.pco.crud.dto.OrderProductDto;
  */
 
 public interface OrderProductImplRepository{
-	List<OrderProductDto> findqueryDslOrderProduct(Long orderId);
+	List<OrderProductDto> findqueryDslOrderProduct(String orderName);
 }

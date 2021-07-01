@@ -39,15 +39,15 @@ public class Member extends BaseEntity{
 	
 	@Builder.Default
 	@OneToMany(mappedBy = "member")
-	private List<Order> orders = new ArrayList<>();
+	private List<Orders> orders = new ArrayList<>();
 
 	
-	public void changeOrder(Order order){
+	public void changeOrder(Orders order){
 		orders.add(order);
 		order.member=this;		
 	}
 
-	public void bulkChangeOrder(List<Order> order){
+	public void bulkChangeOrder(List<Orders> order){
 		orders=order;
 		order.forEach(o -> o.member=this);
 	}

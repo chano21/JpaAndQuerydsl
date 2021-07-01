@@ -5,7 +5,7 @@ package com.pco.crud.utils;
 
 import java.time.LocalDateTime;
 
-import com.pco.crud.domain.Order;
+import com.pco.crud.domain.Orders;
 import com.pco.crud.dto.BaseDto;
 import com.querydsl.core.annotations.QueryProjection;
 

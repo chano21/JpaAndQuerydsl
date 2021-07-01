@@ -16,14 +16,15 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 //import com.pco.crud.config.QuerydslConfig;
 import com.pco.crud.domain.Member;
-import com.pco.crud.domain.Order;
 import com.pco.crud.domain.OrderProduct;
+import com.pco.crud.domain.Orders;
 import com.pco.crud.domain.Product;
 import com.pco.crud.repo.MemberRepository;
 import com.pco.crud.repo.OrderProductRepository;
 import com.pco.crud.repo.ProductRepository;
 import com.pco.crud.repo.service.QuerydslMemberRepositoryImpl;
 import com.pco.crud.repo.service.QuerydslOrderProductRepositoryImpl;
+import com.pco.crud.repo.service.QuerydslOrderRepositoryImpl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @DataJpaTest
@@ -39,6 +40,9 @@ class OrderProductCrudTest {
 	QuerydslMemberRepositoryImpl qmr;
 	
 	QuerydslOrderProductRepositoryImpl qopr;
+	
+	QuerydslOrderRepositoryImpl or;
+	
 	
 	@Autowired
 	MemberRepository memberRepo;
@@ -58,7 +62,7 @@ class OrderProductCrudTest {
 		queryFactory = new JPAQueryFactory(em);
 		qmr = new QuerydslMemberRepositoryImpl(queryFactory);
 		qopr = new QuerydslOrderProductRepositoryImpl(queryFactory);
-
+		or = new QuerydslOrderRepositoryImpl(queryFactory);
 	}
 
 	@DisplayName(value = "OrderProduct M X M insert Test")
@@ -72,14 +76,14 @@ class OrderProductCrudTest {
 
 		
 		em.persist(member);
-		Order order = null;
+		Orders order = null;
 		for (int i = 0; i < 4; i++) {
-			order = Order.builder().orderName("하이" + i).build();
+			order = Orders.builder().orderName("하이" + i).build();
 			member.changeOrder(order);
 			em.persist(order);
 		}
 		em.flush();
-		for (Order o : member.getOrders()) {
+		for (Orders o : member.getOrders()) {
 			System.out.println(o.getOrderName());
 		}
 
@@ -94,7 +98,7 @@ class OrderProductCrudTest {
 		em.persist(product1);
 		em.persist(product2);
 		// 상품 2개 생성
-		Order order3=em.find(Order.class, Long.parseLong("3"));
+		Orders order3=em.find(Orders.class, Long.parseLong("3"));
 		
 		
 		
@@ -120,11 +124,12 @@ class OrderProductCrudTest {
 			System.out.println(p.getProductName());
 		}
 		
-		for(Order o : op.getOrders()) {
+		for(Orders o : op.getOrders()) {
 			System.out.println(o.getOrderName());
 		}
 		
-		System.out.println(qopr.findqueryDslOrderProduct(Long.parseLong("1")).toString());
+		System.out.println(qopr.findqueryDslOrderProduct("하이2"));
+		//System.out.println(or.findOrderAndProduct(Long.parseLong("1")).toString());
 		
 	//	em.persist(product);
 		
