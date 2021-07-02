@@ -3,8 +3,9 @@
  */
 package com.pco.crud.repo.Impl;
 
-import com.pco.crud.dto.BaseDto;
-import com.pco.crud.dto.MemberDto;
+import java.util.List;
+
+import com.pco.crud.dto.ProductDto;
 
 /**
  * @author ParkChano
@@ -13,5 +14,8 @@ import com.pco.crud.dto.MemberDto;
  */
 
 public interface ProductImplRepository{
-	MemberDto findqueryDslMember(String memberName);
+//	MemberDto findqueryDslMember(String memberName);
+	
+	List<ProductDto> findProduct(String productName);
+
 }

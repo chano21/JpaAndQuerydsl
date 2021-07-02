@@ -1,8 +1,7 @@
 package com.pco.crud.repo.service;
 
-import static com.pco.crud.domain.QOrderProduct.orderProduct;
 import static com.pco.crud.domain.QOrders.orders;
-import static com.pco.crud.domain.QProduct.product;
+import static com.pco.crud.domain.QMember.member;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository;
 
 import com.pco.crud.domain.Orders;
-import com.pco.crud.domain.QOrders;
+import com.pco.crud.dto.OrderDto;
 import com.pco.crud.dto.OrderProductDto;
-import com.pco.crud.dto.QOrderProductDto;
+import com.pco.crud.dto.QOrderDto;
 import com.pco.crud.repo.Impl.OrderImplRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 /**
@@ -59,29 +58,50 @@ public class QuerydslOrderRepositoryImpl extends QuerydslRepositorySupport imple
 	public List<OrderProductDto> findOrderAndProduct(Long orderId) {
 		// TODO Auto-generated method stub
 		
-		// TODO Auto-generated method stub
-//		System.out.println("나오냐 : " + orderId);
-//		List<OrderProductDto> dto=queryFactory.from(o)
-//				.innerJoin(orders.orderProduct,orderProduct)
-//				.where(orderProduct.orderProductId.eq(orderId)).fet
-	//			.fetch(); 
-		
-		//.select(new QOrderProductDto(orderProduct.orderProductId, QOrders.orders.orderName, product.productName, orderProduct.createdDate, orderProduct.modifiedDate))
-		
-		//queryFactory.select(new QOrderProductDto(orderProduct.orderProductId,"d","d",orderProduct.createdDate,orderProduct.modifiedDate))
-		//List<OrderProductDto> dto = queryFactory.select(new QOrderProductDto(orderProduct.orderProductId,order.orderName,product.productName)).from(orderProduct);
-
-		
-//		List<OrderProductDto> dto=queryFactory.from(orders)
-//		.select(new QOrderProductDto(orderProduct.orderProductId, orders.orderName, product.productName, orderProduct.createdDate, orderProduct.modifiedDate))
-//		.from()
-		//		.innerJoin(orders.orderProduct,orderProduct)
-//		.where(orderProduct.orderProductId.eq(orderId))
-//		.fetch();
-
-//		System.out.println("나왓다 : " + dto.toString());
-
 		return null;
+	}
+
+	/**
+	 * @param orderName
+	 * @return
+	 * 2021. 7. 2.
+	 * ParkChano
+	 * description : 
+	 */
+	@Override
+	public List<OrderDto> findOrderInMember(int offset ,int limit ,String orderName) {
+
+		List<OrderDto> pdto = queryFactory.
+				from(member).
+				select(new QOrderDto(orders.orderId,orders.orderName,orders.createdDate,orders.modifiedDate))
+				.innerJoin(member.orders,orders)
+				.where(orders.orderName.contains(orderName)).orderBy(orders.orderId.desc())
+				.offset(offset).limit(limit)
+				.fetch();
+
+		return pdto;
+	}
+
+	/**
+	 * @param orderName
+	 * @return
+	 * 2021. 7. 2.
+	 * ParkChano
+	 * description : 
+	 */
+	@Override
+	public List<OrderDto> findOrderInOrder(int offset ,int limit ,String orderName) {
+		// TODO Auto-generated method stub
+		
+		
+		List<OrderDto> pdto = queryFactory.
+				from(orders).
+				select(new QOrderDto(orders.orderId,orders.orderName,orders.createdDate,orders.modifiedDate))
+				.where(orders.orderName.contains(orderName)).orderBy(orders.orderId.desc())
+				.offset(offset).limit(limit)
+				.fetch();
+
+		return pdto;
 	}
  
 }

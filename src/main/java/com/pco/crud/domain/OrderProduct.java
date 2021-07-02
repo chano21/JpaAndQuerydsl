@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,11 +37,11 @@ public class OrderProduct extends BaseEntity {
 	private Long orderProductId;
 	
 	@Builder.Default
-	@OneToMany(mappedBy = "orderProduct")
+	@OneToMany(mappedBy = "orderProduct",fetch = FetchType.LAZY)
 	private List<Orders> orders = new ArrayList<>();
 
 	@Builder.Default
-	@OneToMany(mappedBy = "orderProduct")
+	@OneToMany(mappedBy = "orderProduct",fetch = FetchType.LAZY)
 	private List<Product> products = new ArrayList<>();
 
 	

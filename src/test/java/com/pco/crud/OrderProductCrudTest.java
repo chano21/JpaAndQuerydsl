@@ -25,6 +25,7 @@ import com.pco.crud.repo.ProductRepository;
 import com.pco.crud.repo.service.QuerydslMemberRepositoryImpl;
 import com.pco.crud.repo.service.QuerydslOrderProductRepositoryImpl;
 import com.pco.crud.repo.service.QuerydslOrderRepositoryImpl;
+import com.pco.crud.repo.service.QuerydslProductRepositoryImpl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @DataJpaTest
@@ -42,7 +43,9 @@ class OrderProductCrudTest {
 	QuerydslOrderProductRepositoryImpl qopr;
 	
 	QuerydslOrderRepositoryImpl or;
-	
+
+	QuerydslProductRepositoryImpl pr;
+
 	
 	@Autowired
 	MemberRepository memberRepo;
@@ -55,6 +58,7 @@ class OrderProductCrudTest {
 
 	
 	
+	
 	@BeforeEach
 	public void init() {
 		System.out.println("하위");
@@ -63,6 +67,7 @@ class OrderProductCrudTest {
 		qmr = new QuerydslMemberRepositoryImpl(queryFactory);
 		qopr = new QuerydslOrderProductRepositoryImpl(queryFactory);
 		or = new QuerydslOrderRepositoryImpl(queryFactory);
+		pr = new QuerydslProductRepositoryImpl(queryFactory);
 	}
 
 	@DisplayName(value = "OrderProduct M X M insert Test")
@@ -72,22 +77,38 @@ class OrderProductCrudTest {
 
 		//Order
 		
-		Member member = Member.builder().memberName("하이").build();// .build();
+		Member member1 = Member.builder().memberName("박찬오").build();// .build();
+
+		Member member2 = Member.builder().memberName("하아앙").build();// .build();
 
 		
-		em.persist(member);
+		em.persist(member1);
 		Orders order = null;
 		for (int i = 0; i < 4; i++) {
 			order = Orders.builder().orderName("하이" + i).build();
-			member.changeOrder(order);
-			em.persist(order);
+			member1.changeOrder(order);
 		}
+
+		em.persist(order);
 		em.flush();
-		for (Orders o : member.getOrders()) {
+		order = null;
+		for (int i = 0; i < 4; i++) {
+			order = Orders.builder().orderName("호이" + i).build();
+			member2.changeOrder(order);
+		}
+		
+		em.persist(order);
+		em.flush();
+
+		
+		for (Orders o : member1.getOrders()) {
 			System.out.println(o.getOrderName());
 		}
 
 		System.out.println(qmr.findqueryDslMember("하이1"));
+
+	//	System.out.println(.findqueryDslMember("하이1"));
+
 		
 		
 		//Member and Order 관계형성완료.
@@ -129,11 +150,18 @@ class OrderProductCrudTest {
 		}
 		
 		System.out.println(qopr.findqueryDslOrderProduct("하이2"));
-		//System.out.println(or.findOrderAndProduct(Long.parseLong("1")).toString());
+	
 		
-	//	em.persist(product);
+		
+		//	em.persist(product);
+	//	em.clear();
+		
+		System.out.println(or.findOrderInMember(0, 30, "호이"));
+//		System.out.println(or.findOrderIn(0, 30, "호이"));
 		
 		
 	}
 
+	
+	
 }
