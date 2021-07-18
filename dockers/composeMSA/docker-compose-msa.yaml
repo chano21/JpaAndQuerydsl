@@ -1,0 +1,151 @@
+version: "2.0" 
+services:
+  readdb:
+    image: mysql:5.7
+    restart: always
+    command: --lower_case_table_names=1
+    container_name: readdb
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=readdb
+      - MYSQL_ROOT_PASSWORD=1234
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # you can change volumes
+    networks:
+      - msa_net  
+  eventdb:
+    image: mysql:5.7
+    restart: always
+    command: --lower_case_table_names=1
+    container_name: eventdb
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_DATABASE=eventdb
+      - MYSQL_ROOT_PASSWORD=1234
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # you can change volumes
+    networks:
+      - msa_net
+  zookeeper:
+   image: wurstmeister/zookeeper:3.4.6
+   container_name: zookeeper
+   environment:
+     - KAFKA_HEAP_OPTS=-Xmx16M -Xms16M
+   ports:
+     - "2181:2181"
+   networks:
+    - msa_net   
+  kafka:
+   image: wurstmeister/kafka:2.12-2.0.1
+   container_name: kafka
+   ports:
+     - "9092:9092"
+   hostname: kafka
+   environment:
+     - KAFKA_ADVERTISED_HOST_NAME=kafka
+     - KAFKA_ADVERTISED_PORT=9092
+     - KAFKA_HEAP_OPTS=-Xmx32M -Xms32M
+     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+   depends_on:
+     - zookeeper      
+   volumes:
+     - ./kafkaconfig:/opt/kafka/config # you can change volumes
+   networks:
+     - msa_net  
+  member:
+   image: member:latest
+   restart: always
+   
+   container_name: member
+   ports:
+    - "9500:9500" 
+   depends_on:
+    - readdb
+    - eventdb
+    - kafka
+    - zookeeper
+    
+   networks:
+     - msa_net
+     
+  vacation:
+   image: vacation:latest
+   restart: always
+   
+   container_name: vacation
+   ports:
+    - "9400:9400" 
+   depends_on:
+    - readdb
+    - eventdb
+    - kafka
+    - zookeeper
+    
+   networks:
+     - msa_net
+
+     
+  eureka:
+   image: eureka:latest
+   restart: always
+   container_name: eureka
+   ports:
+    - "9600:9600" 
+   networks:
+     - msa_net
+     
+  gateway:
+   image: gateway:latest
+   restart: always
+   container_name: gateway
+   ports:
+    - "9100:9100" 
+   networks:
+     - msa_net     
+  auth:
+   image: auth:latest
+   restart: always
+   container_name: auth
+   ports:
+    - "7000:7000"
+   depends_on:
+    - readdb
+    - eventdb
+   networks:
+     - msa_net       
+#  redis:
+#   container_name: redis
+#   hostname: redis
+#   image: redis
+#   ports:
+#     - "6379:6379"
+#   networks:
+#     - msa_net
+
+#  redis-commander:
+#   container_name: redis-commander
+#   hostname: redis-commander
+#   image: rediscommander/redis-commander:latest
+#   restart: always
+#   environment:
+#   - REDIS_HOSTS=local:redis:6379
+#   ports:
+#   - "8081:8081"
+#   networks:
+#     - msa_net
+     
+networks:
+  msa_net:     
+     
+
+      

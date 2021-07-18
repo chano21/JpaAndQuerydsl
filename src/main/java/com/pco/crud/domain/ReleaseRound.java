@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,49 +28,27 @@ import lombok.NoArgsConstructor;
  * 2021. 6. 28.
  */
 @Entity
-@Table(name = "member")
+@Table(name = "release_round")
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member extends BaseEntity{
+public class ReleaseRound extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-	private Long memberId;
+	private Long releaseRoundId;
+
 	@Column(nullable = false)
-	
-	private String memberName;
-	
-	@Column(nullable = false)
-	private String phoneNumber;
+	private String releaseWatingBoxs;
 	
 	@Builder.Default
-	@OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
-	private List<Orders> orders = new ArrayList<>();
+	@OneToMany(mappedBy = "releaseRound",fetch = FetchType.LAZY)
+	private List<Box> boxs = new ArrayList<>();
 
-	
-	public void changeOrder(Orders order){
-		orders.add(order);
-		order.member=this;		
-	}
-
-	public void bulkChangeOrder(List<Orders> order){
-		orders=order;
-		order.forEach(o -> o.member=this);
-	}
-
-	
-	/**
-	 * @return
-	 * 2021. 6. 28.
-	 * ParkChano
-	 * description : 
-	 */
-	@Override
-	public String toString() {
-		return "Member [memberId=" + memberId + ", memberName=" + memberName + "]";
+	public void changeBox(Box box){
+		boxs.add(box);
+		box.releaseRound=this;		
 	}
 
 }

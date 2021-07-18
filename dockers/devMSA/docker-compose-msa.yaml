@@ -1,0 +1,77 @@
+version: "2.0" 
+services:
+  readdb:
+    image: mysql:5.7
+    restart: always
+    command: --lower_case_table_names=1
+    container_name: readdb
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_DATABASE=readdb
+      - MYSQL_ROOT_PASSWORD=1234
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # you can change volumes
+    networks:
+      - dev_msa_net  
+  eventdb:
+    image: mysql:5.7
+    restart: always
+    command: --lower_case_table_names=1
+    container_name: eventdb
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_DATABASE=eventdb
+      - MYSQL_ROOT_PASSWORD=1234
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # you can change volumes
+    networks:
+      - dev_msa_net
+  zookeeper:
+   image: wurstmeister/zookeeper:3.4.6
+   container_name: zookeeper
+   environment:
+     - KAFKA_HEAP_OPTS=-Xmx16M -Xms16M
+   ports:
+     - "2181:2181"
+   networks:
+    - dev_msa_net   
+  kafka:
+   image: wurstmeister/kafka:2.12-2.0.1
+   container_name: kafka
+   ports:
+     - "9092:9092"
+   environment:
+     - KAFKA_ADVERTISED_HOST_NAME=127.0.0.1
+     - KAFKA_ADVERTISED_PORT=9092
+     - KAFKA_HEAP_OPTS=-Xmx32M -Xms32M
+     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+   depends_on:
+     - zookeeper      
+   volumes:
+     - ./kafkaconfig:/opt/kafka/config # you can change volumes
+   networks:
+     - dev_msa_net  
+  eureka:
+   image: eureka:latest
+   restart: always
+   container_name: eureka
+   ports:
+    - "9000:9000" 
+   networks:
+     - dev_msa_net
+     
+networks:
+  dev_msa_net:     
+     
+
+      

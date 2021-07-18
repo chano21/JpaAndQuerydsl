@@ -1,0 +1,67 @@
+version: "2.0" 
+services:
+  sampledb1:
+    image: mysql:5.7
+    restart: always
+    command: --lower_case_table_names=1
+    container_name: sampledb1
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_DATABASE=sampledb1
+      - MYSQL_ROOT_PASSWORD=1234
+      - TZ=Asia/Seoul
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # you can change volumes
+    networks:
+      - msa_net
+      
+  zookeeper:
+   image: wurstmeister/zookeeper:3.4.6
+   container_name: zookeeper
+   environment:
+     - KAFKA_HEAP_OPTS=-Xmx16M -Xms16M
+   ports:
+     - "2181:2181"
+   networks:
+    - msa_net   
+  kafka:
+   image: wurstmeister/kafka:2.12-2.0.1
+   container_name: kafka
+   ports:
+     - "9092:9092"
+   hostname: kafka
+   environment:
+     - KAFKA_ADVERTISED_HOST_NAME=kafka
+     - KAFKA_ADVERTISED_PORT=9092
+     - KAFKA_HEAP_OPTS=-Xmx32M -Xms32M
+     - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+   depends_on:
+     - zookeeper      
+   volumes:
+     - ./kafkaconfig:/opt/kafka/config # you can change volumes
+   networks:
+     - msa_net  
+
+  debezium:
+    image: debezium/connect:1.4
+    depends_on:
+      - sampledb1
+      - sampledb2
+      - kafka
+      - zookeeper
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: connect_configs
+      OFFSET_STORAGE_TOPIC: connect_offsets
+     
+     
+networks:
+  msa_net:     
+     
+
+      

@@ -3,10 +3,9 @@
  */
 package com.pco.crud.domain;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
+import java.util.List;
+
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,48 +23,30 @@ import lombok.NoArgsConstructor;
 /**
  * @author ParkChano
  *
- *         2021. 6. 28.
+ * 2021. 6. 28.
  */
 
 @Entity
-@Table(name = "orders")
+@Table(name = "box")
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Orders extends BaseEntity {
+public class Box extends BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
-
-	@Column(name = "order_name")
-	private String orderName;
-
+	private Long boxId;
+	
+	@Column(name = "box_num" ,nullable = false)
+	private int boxNum;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member")
-	protected Member member;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "order_product")
+	@JoinColumn(name="order_product")
 	protected OrderProduct orderProduct;
 
-	@Embedded
-	private OrderNote orderNotes;
-
-	@Embedded
-	private OrderAddress address;
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="release_round")
+	protected ReleaseRound releaseRound;
 	
-	
-	//	
-//	@AttributeOverrides({
-//	       @AttributeOverride(name="startDate", column=@Column("EMP_START")),
-//	})
-//	   public EmploymentPeriod getEmploymentPeriod() { ... }
-//
-//	
-	
-
 }

@@ -44,6 +44,11 @@ public class OrderProduct extends BaseEntity {
 	@OneToMany(mappedBy = "orderProduct",fetch = FetchType.LAZY)
 	private List<Product> products = new ArrayList<>();
 
+	@Builder.Default
+	@OneToMany(mappedBy = "orderProduct",fetch = FetchType.LAZY)
+	private List<Box> boxs = new ArrayList<>();
+
+	
 	
 	public void changeOrder(Orders order){
 		orders.add(order);
@@ -55,7 +60,17 @@ public class OrderProduct extends BaseEntity {
 		product.orderProduct=this;		
 	}
 	
+	public void changeBoxs(Box box){
+		boxs.add(box);
+		box.orderProduct=this;		
+	}
 
+	public void bulkChangeBox(List<Box> box){
+		boxs=box;
+		box.forEach(o -> o.orderProduct=this);
+	}
+	
+	
 	public void bulkChangeOrder(List<Orders> order){
 		orders=order;
 		order.forEach(o -> o.orderProduct=this);
