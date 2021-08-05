@@ -35,10 +35,9 @@ public class Member extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
 	private Long memberId;
-	@Column(nullable = false)
 	
+	@Column(nullable = false)
 	private String memberName;
 	
 	@Column(nullable = false)

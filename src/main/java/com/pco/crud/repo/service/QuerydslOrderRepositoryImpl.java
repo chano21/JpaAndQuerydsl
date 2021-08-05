@@ -60,6 +60,17 @@ public class QuerydslOrderRepositoryImpl extends QuerydslRepositorySupport imple
 		
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	///////////////sample
 
 	/**
 	 * @param orderName
@@ -103,5 +114,17 @@ public class QuerydslOrderRepositoryImpl extends QuerydslRepositorySupport imple
 
 		return pdto;
 	}
+//
+//	@Override
+//	public List<OrderDto> findOrderInMember(int offset, int limit, String orderName) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public List<OrderDto> findOrderInOrder(int offset, int limit, String orderName) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
  
 }

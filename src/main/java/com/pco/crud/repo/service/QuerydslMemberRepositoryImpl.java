@@ -46,7 +46,7 @@ public class QuerydslMemberRepositoryImpl extends QuerydslRepositorySupport impl
 	 */
     @Override
 	public MemberDto findqueryDslMember(String memberName) {
-   		MemberDto dto=	queryFactory.select(new QMemberDto(member.memberId, member.memberName, member.createdDate, member.modifiedDate)).from(member).fetchOne();
+   		MemberDto dto=	queryFactory.select(new QMemberDto(member.memberId, member.memberName, member.createdDate, member.modifiedDate)).where(member.memberName.like(memberName)).from(member).fetchOne();
 		return dto;
 	}
  

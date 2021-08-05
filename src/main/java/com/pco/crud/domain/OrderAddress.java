@@ -18,12 +18,12 @@ import lombok.NoArgsConstructor;
  * 2021. 7. 18.
  */
 @Embeddable
-@Entity
+//@Entity
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderAddress extends BaseEntity{
+public class OrderAddress{
 	
 	@Column(name="order_address1")
 	private String address1;

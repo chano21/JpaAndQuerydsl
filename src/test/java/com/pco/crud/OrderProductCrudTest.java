@@ -77,34 +77,35 @@ class OrderProductCrudTest {
 
 		//Order
 		
-		Member member1 = Member.builder().memberName("박찬오").build();// .build();
+		Member member1 = Member.builder().phoneNumber("010-1111-3333").memberName("박찬오").build();// .build();
 
-		Member member2 = Member.builder().memberName("하아앙").build();// .build();
+		Member member2 = Member.builder().phoneNumber("010-1111-2222").memberName("하아앙").build();// .build();
 
 		
 		em.persist(member1);
+		//em.flush();
 		Orders order = null;
 		for (int i = 0; i < 4; i++) {
 			order = Orders.builder().orderName("하이" + i).build();
+			em.persist(order);
 			member1.changeOrder(order);
 		}
 
-		em.persist(order);
-		em.flush();
+	//	em.flush();
 		order = null;
 		for (int i = 0; i < 4; i++) {
 			order = Orders.builder().orderName("호이" + i).build();
+			em.persist(order);
 			member2.changeOrder(order);
 		}
 		
-		em.persist(order);
 		em.flush();
 
 		
 		for (Orders o : member1.getOrders()) {
-			System.out.println(o.getOrderName());
+			System.out.println(o.getOrderName() + " " +o.getOrderId());
 		}
-
+//		em.flush();
 		System.out.println(qmr.findqueryDslMember("하이1"));
 
 	//	System.out.println(.findqueryDslMember("하이1"));
@@ -121,7 +122,7 @@ class OrderProductCrudTest {
 		// 상품 2개 생성
 		Orders order3=em.find(Orders.class, Long.parseLong("3"));
 		
-		
+		System.out.println("오더 : " + order3);
 		
 		List<Product> productList = new ArrayList<Product>();
 
@@ -133,7 +134,7 @@ class OrderProductCrudTest {
 		op.changeOrder(order3);
 		
 		em.persist(op);
-		em.flush();
+		//em.flush();
 		System.out.println(op.getOrders().toString());
 		
 		em.clear();
